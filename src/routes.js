@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import AuthMiddleware from './app/middlewares/AuthMiddleware';
 import SessionController from './app/controllers/SessionController';
 import UserController from './app/controllers/UserController';
 
@@ -22,6 +23,7 @@ class Routes {
 
   usersRoutes() {
     this.routes.post('/users', UserController.create);
+    this.routes.put('/users', AuthMiddleware.authorize, UserController.update);
   }
 }
 
