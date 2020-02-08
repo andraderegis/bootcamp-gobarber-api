@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import SessionController from './app/controllers/SessionController';
 import UserController from './app/controllers/UserController';
 
 class Routes {
@@ -7,6 +8,7 @@ class Routes {
     this.routes = new Router();
 
     this.rootRoutes();
+    this.sessionRoutes();
     this.usersRoutes();
   }
 
@@ -14,8 +16,12 @@ class Routes {
     this.routes.get('/', (req, res) => res.json({ message: 'Hello Word' }));
   }
 
+  sessionRoutes() {
+    this.routes.post('/sessions', SessionController.login);
+  }
+
   usersRoutes() {
-    this.routes.post('/users', UserController.store);
+    this.routes.post('/users', UserController.create);
   }
 }
 

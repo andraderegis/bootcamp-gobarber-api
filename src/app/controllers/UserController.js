@@ -1,7 +1,7 @@
 import User from '../models/User';
 
 class UserController {
-  async store(req, res) {
+  async create(req, res) {
     const hasUser = await User.findOne({
       where: {
         email: req.body.email,
