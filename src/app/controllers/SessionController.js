@@ -3,9 +3,13 @@ import jwt from 'jsonwebtoken';
 import authConfig from '../../config/authConfig';
 
 import User from '../models/User';
+import SessionControllerValidator from '../validators/controllers/SessionControllerValidator';
 
 class SessionControler {
   async login(req, res) {
+    if (!(await SessionControllerValidator.isValidLogin(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
     const { email, password } = req.body;
 
     const user = await User.findOne({

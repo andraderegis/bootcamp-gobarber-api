@@ -1,7 +1,12 @@
 import User from '../models/User';
+import UserControllerValidator from '../validators/controllers/UserControllerValidator';
 
 class UserController {
   async create(req, res) {
+    if (!(await UserControllerValidator.isValidCreate(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
+
     const hasUser = await User.findOne({
       where: {
         email: req.body.email,
@@ -23,6 +28,9 @@ class UserController {
   }
 
   async update(req, res) {
+    if (!(await UserControllerValidator.isValidUpdate(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
